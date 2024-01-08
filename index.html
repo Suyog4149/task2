@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .step-1, .step-2, .step-3 {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        .supported-file-types {
+            color: #999;
+        }
+
+        .format-details {
+            margin-bottom: 20px;
+        }
+
+        select#fieldsDisplay, select#selectedFields {
+            width: 100%;
+            height: 100px;
+        }
+
+        .dropdown {
+            margin-bottom: 15px;
+        }
+
+        .dropdown label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .dropdown select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Import Products</h1>
+        <div class="step-1">
+            <h2>Step 1: Select File</h2>
+            <input type="file" id="fileInput" />
+            <div class="supported-file-types">
+                <p>Supported File Type(s): .CSV, JSON</p>
+            </div>
+        </div>
+        <div class="step-2">
+            <h2>Step 2: Specify Format</h2>
+            <div class="dropdown">
+                <label for="fileType">File Type:</label>
+                <select id="fileType">
+                    <option value="csv" selected>CSV</option>
+                    <option value="json">JSON</option>
+                </select>
+            </div>
+            <div class="dropdown">
+                <label for="encoding">Character Encoding:</label>
+                <select id="encoding">
+                    <option value="utf-8" selected>UTF-8</option>
+                    <!-- Add other encoding options if needed -->
+                </select>
+            </div>
+            <div class="dropdown">
+                <label for="delimiter">Delimiter:</label>
+                <select id="delimiter">
+                    <option value="comma" selected>Comma (,)</option>
+                    <option value="tab">Tab</option>
+                    <!-- Add other delimiter options if needed -->
+                </select>
+            </div>
+            <div class="dropdown">
+                <label for="hasHeader">Has Header:</label>
+                <select id="hasHeader">
+                    <option value="yes" selected>Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <button id="nextBtn">Next</button>
+            <button id="cancelBtn">Cancel</button>
+        </div>
+        <div class="step-3">
+            <h2>Step 3: Display Handling</h2>
+            <p>Select the fields to be displayed</p>
+            <div class="button-group">
+                <select id="fieldsDisplay" multiple>
+                    <option value="productId">Product Id</option>
+                    <option value="subcategory">Subcategory</option>
+                    <option value="title">Title</option>
+                    <option value="price">Price</option>
+                    <option value="popularity">Popularity</option>
+                    <option value="description">Description</option>
+                    <option value="rating">Rating</option>
+                    <option value="utmSource">UTM Source</option>
+                    <option value="utmMedium">UTM Medium</option>
+                </select>
+                <div>
+                    <button id="backBtn">Back</button>
+                    <button id="submitBtn">Submit</button>
+                    <button id="cancelBtn">Cancel</button>
+                </div>
+                <select id="selectedFields" multiple></select>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('nextBtn').addEventListener('click', function () {
+            document.querySelector('.step-1').style.display = 'none';
+            document.querySelector('.step-2').style.display = 'block';
+        });
+
+        document.getElementById('backBtn').addEventListener('click', function () {
+            document.querySelector('.step-2').style.display = 'none';
+            document.querySelector('.step-1').style.display = 'block';
+        });
+
+        document.getElementById('cancelBtn').addEventListener('click', function () {
+            alert('Import canceled.');
+            window.location.href = 'main.html';
+        });
+
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            var selectedFields = document.getElementById('fieldsDisplay');
+            var selectedFieldsList = document.getElementById('selectedFields');
+
+            for (var i = 0; i < selectedFields.options.length; i++) {
+                if (selectedFields.options[i].selected) {
+                    var option = document.createElement('option');
+                    option.value = selectedFields.options[i].value;
+                    option.text = selectedFields.options[i].text;
+                    selectedFieldsList.add(option);
+                }
+            }
+
+
+            alert('Fields selected successfully!');
+        });
+    </script>
+</body>
+</html>
+
